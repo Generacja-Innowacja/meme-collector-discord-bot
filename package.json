@@ -6,6 +6,9 @@
   "author": "LunarWanderer <lunarwanderer13@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
   "dependencies": {
     "discord.js": "^14.25.1",
     "dotenv": "^17.2.3"
