@@ -1,0 +1,9 @@
+{
+  "name": "meme-collector-discord-bot",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "repository": "https://github.com/lunarwanderer13/meme-collector-discord-bot",
+  "author": "LunarWanderer <lunarwanderer13@gmail.com>",
+  "license": "MIT",
+  "private": false
+}
