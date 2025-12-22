@@ -5,5 +5,14 @@
   "repository": "https://github.com/lunarwanderer13/meme-collector-discord-bot",
   "author": "LunarWanderer <lunarwanderer13@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
 }
