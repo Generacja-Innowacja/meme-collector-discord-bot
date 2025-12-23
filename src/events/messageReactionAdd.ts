@@ -14,10 +14,10 @@ export default (client: Client): void => {
         if (user.partial || !user) user = await user.fetch()
 
         // Check for self-reacting
-        if (reaction.message.author === user) return
+        //if (reaction.message.author === user) return
 
         // Check for attachments
-        if (reaction.message.attachments.size <= 0) return
+        //if (reaction.message.attachments.size <= 0) return
 
         // Check for the right channel
         if (reaction.message.channel.id !== process.env.MEME_ID) return
@@ -28,14 +28,21 @@ export default (client: Client): void => {
 
 
 
+        // Define a type for the emoji object
+        interface EmojiObject {
+            id: string,
+            name: string,
+            count: number
+        }
+
         // Define a type for the entry
         interface ScoreEntry {
             id: string,
             username: string,
             reactions: {
-                weekly: [string, string, number][],
-                monthly: [string, string, number][],
-                yearly: [string, string, number][]
+                weekly: EmojiObject[],
+                monthly: EmojiObject[],
+                yearly: EmojiObject[]
             }
         }
 
@@ -61,8 +68,18 @@ export default (client: Client): void => {
         }
 
         // Loop through all reaction arrays
-        for (const reactions of Object.values(entry.reactions)) { // FIX ME
-            reactions.push([reaction.emoji.identifier, reaction.emoji.name ?? reaction.emoji.id ?? "", reaction.count])
+        for (const reactions of Object.values(entry.reactions)) {
+            const emoji: EmojiObject | undefined = reactions.find(r => r.id === reaction.emoji.identifier)
+
+            if (emoji) {
+                emoji.count = reaction.count
+            } else {
+                reactions.push({
+                    id: reaction.emoji.identifier,
+                    name: reaction.emoji.name ?? reaction.emoji.id ?? "",
+                    count: reaction.count
+                })
+            }
         }
 
         // Save scores to the memes.json file
