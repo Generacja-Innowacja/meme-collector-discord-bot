@@ -4,6 +4,7 @@ import "dotenv/config"
 import ready from "./events/clientReady"
 import interactionCreate from "./events/interactionCreate"
 import messageReaction from "./events/messageReaction"
+import "./utils/memes-reset"
 
 const client: Client<boolean> = new Client({
     intents: [
