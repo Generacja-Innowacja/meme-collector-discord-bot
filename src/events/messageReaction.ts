@@ -6,7 +6,11 @@ import {
 import fs from "fs"
 import "dotenv/config"
 
-async function messageReaction(reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) {
+async function messageReaction(
+    reaction: MessageReaction | PartialMessageReaction,
+    user: User | PartialUser,
+    delta: number
+) {
     // Check for partials and nulls
     if (reaction.partial || !reaction) reaction = await reaction.fetch()
     if (reaction.message.partial || !reaction.message) reaction.message = await reaction.message.fetch()
@@ -71,12 +75,17 @@ async function messageReaction(reaction: MessageReaction | PartialMessageReactio
         const emoji: EmojiObject | undefined = reactions.find(r => r.id === reaction.emoji.identifier)
 
         if (emoji) {
-            emoji.count = reaction.count
+            emoji.count += delta
+
+            if (emoji.count <= 0) {
+                const index: number = reactions.findIndex(r => r.id === reaction.emoji.identifier)
+                reactions.splice(index, 1)
+            }
         } else {
             reactions.push({
                 id: reaction.emoji.identifier,
                 name: reaction.emoji.name ?? reaction.emoji.id ?? "",
-                count: reaction.count
+                count: 1
             })
         }
     }
@@ -86,6 +95,11 @@ async function messageReaction(reaction: MessageReaction | PartialMessageReactio
 }
 
 export default (client: Client): void => {
-    client.on("messageReactionAdd", messageReaction)
-    client.on("messageReactionRemove", messageReaction)
+    client.on("messageReactionAdd", (reaction, user) => {
+        messageReaction(reaction, user, +1)
+    })
+
+    client.on("messageReactionRemove", (reaction, user) => {
+        messageReaction(reaction, user, -1)
+    })
 }
