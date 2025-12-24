@@ -1,5 +1,5 @@
 import fs from "fs"
-import schedule, { scheduledJobs } from "node-schedule"
+import schedule from "node-schedule"
 
 // Logging function
 function log(level: string, message: string): void {
