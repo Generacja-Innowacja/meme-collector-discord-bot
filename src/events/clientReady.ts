@@ -9,7 +9,7 @@ export default (client: Client): void => {
         }
 
         const rest = new REST().setToken(process.env.TOKEN!)
-        rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.GUILD_ID!), { body: Commands })
+        await rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID!, process.env.GUILD_ID!), { body: Commands.map(command => command.data.toJSON()) })
 
         console.log(`Logged in as ${client.user.username}`)
     })

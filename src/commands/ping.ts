@@ -1,12 +1,14 @@
-import { Client, CommandInteraction, MessageFlags } from "discord.js"
-import { Command } from "../command"
+import { SlashCommandBuilder, ChatInputCommandInteraction, MessageFlags } from "discord.js"
+import { Command } from "./../command"
 
 export const Ping: Command = {
-    name: "ping",
-    description: "Replies with pong!",
-    run: async (client: Client, interaction: CommandInteraction) => {
+    data: new SlashCommandBuilder()
+        .setName("ping")
+        .setDescription("Replies with pong!"),
+
+    async execute(interaction: ChatInputCommandInteraction) {
         await interaction.reply({
-            content: `Pong! ${interaction.client.ws.ping}ms`,
+            content: `Pong!`,
             flags: MessageFlags.Ephemeral
         })
     }
