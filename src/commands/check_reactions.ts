@@ -36,7 +36,7 @@ export const CheckReactions: Command = {
             .setColor("#ff6432")
 
         let title: string = ""
-        target === interaction.user ? title = "Twoje reakcje z tego " : title = `Reakcje ${target.username} z tego `
+        target === interaction.user ? title = "Twoje reakcje z tego " : title = `Reakcje ${target.username.replaceAll("*", "\\*").replaceAll("_", "\\_")} z tego `
         switch (score_type) {
             case "weekly":
                 title += "tygodnia"
